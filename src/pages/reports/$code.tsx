@@ -1,13 +1,13 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
 import { AlertCircleIcon, Loader2 } from "lucide-react";
 
+import { useEffect } from "react";
 import { ReportNotFound } from "./-components/report-not-found";
 import { ReportDetails } from "./-components/report-details";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
 import { useReportByCode } from "@/hooks/use-report-by-code";
-import { useEffect } from "react"
 
 export const Route = createFileRoute("/reports/$code")({
   component: RouteComponent,
@@ -18,9 +18,9 @@ function RouteComponent() {
   const { isLoading, data, isError } = useReportByCode(params.code);
 
   useEffect(() => {
-    fetch('https://api.prdl.shop/api/denuncias/61d6450b-1737-43db-91b9-6ce51b7f0e3e/').then(res => res.json()).then(data => {
+    fetch("https://api.prdl.shop/api/denuncias/61d6450b-1737-43db-91b9-6ce51b7f0e3e/").then(res => res.json()).then(data => {
       console.log(data);
-    })
+    });
 
   }, []);
 
