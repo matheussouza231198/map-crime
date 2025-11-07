@@ -1,0 +1,64 @@
+name: PR Auto Label
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize]
+
+jobs:
+  auto-label:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Add labels based on PR content
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const prBody = context.payload.pull_request.body || '';
+            const prTitle = context.payload.pull_request.title || '';
+            const labels = [];
+            
+            // Labels baseadas no tipo de mudança
+            if (/- \[x\].*🐛 Bug fix/i.test(prBody)) {
+              labels.push('bug');
+            }
+            if (/- \[x\].*✨ Feature/i.test(prBody)) {
+              labels.push('enhancement');
+            }
+            if (/- \[x\].*💥 Breaking change/i.test(prBody)) {
+              labels.push('breaking-change');
+            }
+            if (/- \[x\].*📝 Documentação/i.test(prBody)) {
+              labels.push('documentation');
+            }
+            if (/- \[x\].*🎨 Estilo/i.test(prBody)) {
+              labels.push('style');
+            }
+            if (/- \[x\].*♻️ Refatoração/i.test(prBody)) {
+              labels.push('refactor');
+            }
+            if (/- \[x\].*⚡ Performance/i.test(prBody)) {
+              labels.push('performance');
+            }
+            if (/- \[x\].*✅ Testes/i.test(prBody)) {
+              labels.push('tests');
+            }
+            if (/- \[x\].*🔧 Configuração/i.test(prBody)) {
+              labels.push('config');
+            }
+            
+            // Labels baseadas no título
+            if (/\[WIP\]|\[DRAFT\]/i.test(prTitle)) {
+              labels.push('work-in-progress');
+            }
+            if (/\[HOTFIX\]/i.test(prTitle)) {
+              labels.push('hotfix');
+            }
+            
+            // Adiciona as labels
+            if (labels.length > 0) {
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.payload.pull_request.number,
+                labels: labels
+              });
+            }
