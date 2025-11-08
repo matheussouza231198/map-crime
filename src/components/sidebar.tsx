@@ -22,10 +22,15 @@ const menuItems = [
   { icon: LayoutDashboardIcon, label: "Dashboard", path: "/admin" },
   { icon: FileTextIcon, label: "Denúncias", path: "/admin/reports" },
   { icon: UsersIcon, label: "Usuários", path: "/admin/usuarios" },
-  { icon: BarChart3Icon, label: "Relatórios", path: "/admin/relatorios" },
+  { icon: BarChart3Icon, label: "Relatórios", path: "/admin/reports-admin" },
 ] as const;
 
-function NavigationLink({ icon: Icon, label, path, onClick }: {
+function NavigationLink({
+  icon: Icon,
+  label,
+  path,
+  onClick,
+}: {
   icon: React.ComponentType<any>;
   label: string;
   path: string;
@@ -58,11 +63,13 @@ export function Sidebar({ open, close }: SidebarProps) {
 
   return (
     <>
-      <aside className={cn(
-        "fixed lg:static inset-y-0 left-0 z-50 w-64 bg-card border-r h-screen",
-        "transform transition-transform lg:transition-none duration-200 ease-in-out",
-        open ? "translate-x-0" : "-translate-x-full lg:translate-x-0",
-      )}>
+      <aside
+        className={cn(
+          "fixed lg:static inset-y-0 left-0 z-50 w-64 bg-card border-r h-screen",
+          "transform transition-transform lg:transition-none duration-200 ease-in-out",
+          open ? "translate-x-0" : "-translate-x-full lg:translate-x-0",
+        )}
+      >
         <div className="flex flex-col h-full">
           <div className="h-16 flex items-center px-6 border-b">
             <h3 className="text-xl font-bold">Painel Admin</h3>
@@ -70,11 +77,7 @@ export function Sidebar({ open, close }: SidebarProps) {
 
           <nav className="p-4 flex-1">
             {menuItems.map((item, index) => (
-              <NavigationLink
-                key={index}
-                onClick={close}
-                {...item}
-              />
+              <NavigationLink key={index} onClick={close} {...item} />
             ))}
           </nav>
 

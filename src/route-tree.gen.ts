@@ -18,6 +18,7 @@ import { Route as ReportsCodeRouteImport } from './pages/reports/$code'
 import { Route as AdminLoginRouteImport } from './pages/admin/login'
 import { Route as AdminAuthLayoutRouteImport } from './pages/admin/_auth/layout'
 import { Route as AdminAuthIndexRouteImport } from './pages/admin/_auth/index'
+import { Route as AdminAuthReportsAdminRouteImport } from './pages/admin/_auth/reports-admin'
 import { Route as AdminAuthReportsRouteImport } from './pages/admin/_auth/reports'
 
 const AdminRouteImport = createFileRoute('/admin')()
@@ -61,6 +62,11 @@ const AdminAuthIndexRoute = AdminAuthIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AdminAuthLayoutRoute,
 } as any)
+const AdminAuthReportsAdminRoute = AdminAuthReportsAdminRouteImport.update({
+  id: '/reports-admin',
+  path: '/reports-admin',
+  getParentRoute: () => AdminAuthLayoutRoute,
+} as any)
 const AdminAuthReportsRoute = AdminAuthReportsRouteImport.update({
   id: '/reports',
   path: '/reports',
@@ -75,6 +81,7 @@ export interface FileRoutesByFullPath {
   '/reports/$code': typeof ReportsCodeRoute
   '/reports/create': typeof ReportsCreateRoute
   '/admin/reports': typeof AdminAuthReportsRoute
+  '/admin/reports-admin': typeof AdminAuthReportsAdminRoute
   '/admin/': typeof AdminAuthIndexRoute
 }
 export interface FileRoutesByTo {
@@ -85,6 +92,7 @@ export interface FileRoutesByTo {
   '/reports/$code': typeof ReportsCodeRoute
   '/reports/create': typeof ReportsCreateRoute
   '/admin/reports': typeof AdminAuthReportsRoute
+  '/admin/reports-admin': typeof AdminAuthReportsAdminRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -96,6 +104,7 @@ export interface FileRoutesById {
   '/reports/$code': typeof ReportsCodeRoute
   '/reports/create': typeof ReportsCreateRoute
   '/admin/_auth/reports': typeof AdminAuthReportsRoute
+  '/admin/_auth/reports-admin': typeof AdminAuthReportsAdminRoute
   '/admin/_auth/': typeof AdminAuthIndexRoute
 }
 export interface FileRouteTypes {
@@ -108,6 +117,7 @@ export interface FileRouteTypes {
     | '/reports/$code'
     | '/reports/create'
     | '/admin/reports'
+    | '/admin/reports-admin'
     | '/admin/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -118,6 +128,7 @@ export interface FileRouteTypes {
     | '/reports/$code'
     | '/reports/create'
     | '/admin/reports'
+    | '/admin/reports-admin'
   id:
     | '__root__'
     | '/'
@@ -128,6 +139,7 @@ export interface FileRouteTypes {
     | '/reports/$code'
     | '/reports/create'
     | '/admin/_auth/reports'
+    | '/admin/_auth/reports-admin'
     | '/admin/_auth/'
   fileRoutesById: FileRoutesById
 }
@@ -195,6 +207,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAuthIndexRouteImport
       parentRoute: typeof AdminAuthLayoutRoute
     }
+    '/admin/_auth/reports-admin': {
+      id: '/admin/_auth/reports-admin'
+      path: '/reports-admin'
+      fullPath: '/admin/reports-admin'
+      preLoaderRoute: typeof AdminAuthReportsAdminRouteImport
+      parentRoute: typeof AdminAuthLayoutRoute
+    }
     '/admin/_auth/reports': {
       id: '/admin/_auth/reports'
       path: '/reports'
@@ -221,11 +240,13 @@ const ReportsLayoutRouteWithChildren = ReportsLayoutRoute._addFileChildren(
 
 interface AdminAuthLayoutRouteChildren {
   AdminAuthReportsRoute: typeof AdminAuthReportsRoute
+  AdminAuthReportsAdminRoute: typeof AdminAuthReportsAdminRoute
   AdminAuthIndexRoute: typeof AdminAuthIndexRoute
 }
 
 const AdminAuthLayoutRouteChildren: AdminAuthLayoutRouteChildren = {
   AdminAuthReportsRoute: AdminAuthReportsRoute,
+  AdminAuthReportsAdminRoute: AdminAuthReportsAdminRoute,
   AdminAuthIndexRoute: AdminAuthIndexRoute,
 }
 
